@@ -1,32 +1,27 @@
 package com.example.android.accenturefeed;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+class Category {
 
-import java.util.ArrayList;
+    String title;
+    String id;
 
-class Category{
-    public String title;
-    public String id;
-    public Category(JSONObject object){
-        try {
-            this.title = object.getString("title");
-            this.id = object.getString("_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+    public String getTitle() {
+        return title;
     }
-    public static ArrayList<Category> fromJson(JSONArray jsonObjects) {
-        ArrayList<Category> users = new ArrayList<>();
-        for (int i = 0; i < jsonObjects.length(); i++) {
-            try {
-                users.add(new Category(jsonObjects.getJSONObject(i)));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return users;
+
+    public void setTitle(String ctitle) {
+        this.title = ctitle;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String cid) {
+        this.id = cid;
+    }
+
+
 
 }

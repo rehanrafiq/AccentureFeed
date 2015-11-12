@@ -26,31 +26,42 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-
 @SuppressWarnings("ALL")
-    public class CategoriesActivity extends AppCompatActivity {
+public class ItemActivity extends AppCompatActivity {
 
-    Context context = CategoriesActivity.this;
-    ArrayList<Category> myList = new ArrayList<Category>();
-    ListView listView;
+
+    Context context = ItemActivity.this;
+    ArrayList<Items> myListItems = new ArrayList<Items>();
+    ListView ItemlistView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+   protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.categories_activity);
+        setContentView(R.layout.activity_item);
 
-        class SendPostCategoriesReqAsyncTask extends AsyncTask<Void, Void, String> {
+        Intent i = getIntent();
+        Bundle extras=i.getExtras();
+        String id =extras.getString("cat_id");
+//
+//        if (extras!=null){
+//
+//            TextView textView=(TextView)findViewById(R.id.item_text);
+//            textView.setText(id);
+//        }
+        class SendGetOneCategoryReqAsyncTask extends AsyncTask<String, Void, String> {
 
-            JSONArray categories;
+            JSONArray items;
 
             @Override
-            protected String doInBackground(Void... params) {
+            protected String doInBackground(String... params) {
+                String id=params[0];
+
 
                 HttpClient httpClient = new DefaultHttpClient();
 
                 // In a POST request, we don't pass the values in the URL.
                 //Therefore we use only the web page URL as the parameter of the HttpPost argument
-                HttpGet httpGet = new HttpGet("https://accenture-feed.herokuapp.com/api/categories");
+                HttpGet httpGet = new HttpGet("https://accenture-feed.herokuapp.com/api/items/bycategory/".concat(id));
 
                 try {
                     // HttpResponse is an interface just like HttpPost.
@@ -94,44 +105,89 @@ import java.util.ArrayList;
 
             @Override
             protected void onPostExecute(String result) {
-
                 super.onPostExecute(result);
                 try {
-                    categories = new JSONArray(result);
+                    items=new JSONArray(result);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                for (int i = 0; i < categories.length(); i++) {
+
+
+                for (int i = 0; i < items.length(); i++) {
                     //      // Create a new object for each list item
-                    JSONObject category = null;
+                    JSONObject Items = null;
                     try {
-                        category = categories.getJSONObject(i);
+                        Items = items.getJSONObject(i);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Category ld = new Category();
-                    ld.setTitle(category.optString("title"));
-                    ld.setId(category.optString("_id"));
-                    //          ld.setImgResId(img[i]);
-                    // Add this object into the ArrayList myListItems
-                    myList.add(ld);
-
+                    Items item = new Items();
+                    item.setItemTitle(Items.optString("title"));
+                    item.setItemId(Items.optString("_id"));
+                    item.setItemPubdate(Items.optString("pubDate"));
+                    item.setItemLink(Items.optString("link"));
+                    item.setItemDesc(Items.optString("description"));
+                            //          ld.setImgResId(img[i]);
+                            // Add this object into the ArrayList myListItems
+                            myListItems.add(item);
                 }
+//                super.onPostExecute(result);
+//                try {
+//                    items = new JSONArray(result);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                for (int i = 0; i < items.length(); i++) {
+//                    //      // Create a new object for each list item
+//                    JSONObject item = null;
+//                    try {
+//                        item = items.getJSONObject(i);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Items Id = new Items();
+//                    Id.setItemTitle(item.optString("title"));
+//                    Id.setItemId(item.optString("_id"));
+//                    //          ld.setImgResId(img[i]);
+//                    // Add this object into the ArrayList myListItems
+//                    myListItems.add(Id);
+//
+//                }
 
 
-                listView = (ListView) findViewById(R.id.listview_categories);
-                listView.setAdapter(new CategoriesAdapter(context, myList));
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                ItemlistView = (ListView) findViewById(R.id.listview_items);
+                ItemlistView.setAdapter(new ItemsAdapter(context, myListItems));
+                ItemlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Category cat = (Category) parent.getAdapter().getItem(position);
-                        String cat_id = cat.id;
-                        Intent cat_intent= new Intent(CategoriesActivity.this, ItemActivity.class);
-                        cat_intent.putExtra("cat_id",cat_id);
-                        startActivity(cat_intent);
+                        Items item=(Items)parent.getAdapter().getItem(position);
+                        String item_id=item.itemid;
+                        String item_title=item.itemtitle;
+                        String item_desc=item.itemdesc;
+                        String item_pubdate=item.pubdate;
+                        String item_link=item.itemlink;
+                        Intent item_intent=new Intent(ItemActivity.this,DetailItem.class);
+                        item_intent.putExtra("item_id",item_id);
+                        item_intent.putExtra("item_title",item_title);
+                        item_intent.putExtra("item_desc",item_desc);
+                        item_intent.putExtra("item_pubdate",item_pubdate);
+                        item_intent.putExtra("item_link",item_link);
+                        startActivity(item_intent);
                     }
                 });
+
+//                ItemlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Items catitem = (Items) parent.getAdapter().getItem(position);
+//                        String catitem_id = catitem.itemid;
+//                        Intent catitem_intent= new Intent(ItemActivity.this, DetailItem.class);
+//                        catitem_intent.putExtra("cat_id",catitem_id);
+//                        startActivity(catitem_intent);
+//                    }
+//                });
 
 
 //        final ArrayList data = new ArrayList<>();
@@ -156,8 +212,8 @@ import java.util.ArrayList;
 //                delegate.processFinish(myListItems);
             }
         }
-        SendPostCategoriesReqAsyncTask asyncTask = (SendPostCategoriesReqAsyncTask) new SendPostCategoriesReqAsyncTask();
-        asyncTask.execute();
+        SendGetOneCategoryReqAsyncTask asyncTask = (SendGetOneCategoryReqAsyncTask) new SendGetOneCategoryReqAsyncTask();
+        asyncTask.execute(id);
     }
 
     @Override
@@ -182,3 +238,4 @@ import java.util.ArrayList;
         return super.onOptionsItemSelected(item);
     }
 }
+
