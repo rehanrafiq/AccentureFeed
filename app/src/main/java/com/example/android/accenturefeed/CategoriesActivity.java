@@ -198,7 +198,15 @@ import java.util.ArrayList;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            Intent productIntent = new Intent(CategoriesActivity.this,LoginActivity.class);
+            startActivity(productIntent);
+            return true;
+        }
+
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;

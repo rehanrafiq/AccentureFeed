@@ -63,6 +63,14 @@ public class DetailItem extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            Intent productIntent = new Intent(DetailItem.this,LoginActivity.class);
+            startActivity(productIntent);
+            return true;
+        }
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
