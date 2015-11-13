@@ -24,6 +24,7 @@ import java.util.List;
 class SendLoginRequestAsyncTask extends AsyncTask<String, Void, String> {
 
 
+
     @SuppressWarnings("deprecation")
     @Override
     protected String doInBackground(String... params) {
@@ -114,6 +115,7 @@ class SendLoginRequestAsyncTask extends AsyncTask<String, Void, String> {
         }
         String name = myJson.optString("displayName");
         delegate.processFinish(name);
+
 
     }
 }

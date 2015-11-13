@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -38,10 +40,18 @@ import java.util.ArrayList;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_activity);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent i=getIntent();
+        Bundle extras=i.getExtras();
+        if (extras != null) {
+            String name=extras.getString("username");
+            Toast.makeText(getApplicationContext(), "Welcome " + name, Toast.LENGTH_SHORT).show();
+        }
 
         class SendPostCategoriesReqAsyncTask extends AsyncTask<Void, Void, String> {
-
             JSONArray categories;
+
 
             @Override
             protected String doInBackground(Void... params) {
@@ -81,6 +91,21 @@ import java.util.ArrayList;
                 return null;
             }
 
+            @Override
+            protected void onPreExecute() {
+
+//                new Thread() {
+//                    public void run() {
+//                        try{
+//                            // just doing some long operation
+//                            sleep(3000);
+//                        } catch (Exception e) {  }
+//                        pDialog.dismiss();
+//                    }
+//                }.start();
+
+            }
+
 //            public interface AsyncResponse {
 //
 //                void processFinish(ArrayList<Category> mylist);
@@ -91,6 +116,8 @@ import java.util.ArrayList;
 //            public SendPostCategoriesReqAsyncTask(AsyncResponse delegate){
 //                this.delegate = delegate;
 //            }
+
+
 
             @Override
             protected void onPostExecute(String result) {
@@ -117,7 +144,9 @@ import java.util.ArrayList;
                     // Add this object into the ArrayList myListItems
                     myList.add(ld);
 
+
                 }
+
 
 
                 listView = (ListView) findViewById(R.id.listview_categories);
@@ -128,7 +157,7 @@ import java.util.ArrayList;
                         Category cat = (Category) parent.getAdapter().getItem(position);
                         String cat_id = cat.id;
                         Intent cat_intent= new Intent(CategoriesActivity.this, ItemActivity.class);
-                        cat_intent.putExtra("cat_id",cat_id);
+                        cat_intent.putExtra("cat_id", cat_id);
                         startActivity(cat_intent);
                     }
                 });
@@ -169,16 +198,13 @@ import java.util.ArrayList;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up loginbutton, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 }

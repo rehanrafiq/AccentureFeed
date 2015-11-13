@@ -18,8 +18,8 @@
         android:id="@+id/list_item_adapter_textview"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:background="@drawable/fully_rounded"
         android:padding="20dp"
+        android:background="#cb4695e9"
 
         >
 

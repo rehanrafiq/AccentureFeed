@@ -1,9 +1,11 @@
 package com.example.android.accenturefeed;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +40,8 @@ public class ItemActivity extends AppCompatActivity {
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         Intent i = getIntent();
         Bundle extras=i.getExtras();
@@ -51,6 +55,8 @@ public class ItemActivity extends AppCompatActivity {
         class SendGetOneCategoryReqAsyncTask extends AsyncTask<String, Void, String> {
 
             JSONArray items;
+            public ProgressDialog pdialog;
+
 
             @Override
             protected String doInBackground(String... params) {
@@ -91,6 +97,22 @@ public class ItemActivity extends AppCompatActivity {
                 }
                 return null;
             }
+            @Override
+            protected void onPreExecute() {
+                pdialog = ProgressDialog.show(ItemActivity.this, "Fetching Data", "Please wait...");
+//                new Thread() {
+//                    public void run() {
+//                        try{
+//                            // just doing some long operation
+//                            sleep(3000);
+//                        } catch (Exception e) {  }
+//                        pDialog.dismiss();
+//                    }
+//                }.start();
+
+            }
+
+
 
 //            public interface AsyncResponse {
 //
@@ -131,6 +153,7 @@ public class ItemActivity extends AppCompatActivity {
                             //          ld.setImgResId(img[i]);
                             // Add this object into the ArrayList myListItems
                             myListItems.add(item);
+                    pdialog.dismiss();
                 }
 //                super.onPostExecute(result);
 //                try {
@@ -225,17 +248,13 @@ public class ItemActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up loginbutton, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
 

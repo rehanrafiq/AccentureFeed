@@ -12,17 +12,37 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CategoriesActivity" />
-        <activity android:name=".ItemActivity" >
+
+        <activity
+            android:name=".CategoriesActivity"
+            android:label="Categories">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.accenturefeed.LoginActivity" />
         </activity>
-        <activity android:name=".DetailItem" >
+
+        <activity
+            android:name=".ItemActivity"
+            android:label="News Items">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.accenturefeed.CategoriesActivity" />
+        </activity>
+
+        <activity
+            android:name=".DetailItem"
+            android:label="Item Details">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.accenturefeed.ItemActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

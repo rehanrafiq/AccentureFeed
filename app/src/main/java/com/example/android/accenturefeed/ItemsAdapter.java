@@ -50,9 +50,10 @@ class ItemsAdapter extends BaseAdapter {
         }
 
         Items currentListData = getItem(position);
-        position+=1;
+//        position+=1;
+//        ""+position+" : "+
 
-        mViewHolder.itemtitletext.setText(""+position+" : "+currentListData.getItemTitle());
+        mViewHolder.itemtitletext.setText(currentListData.getItemTitle());
 
 
 

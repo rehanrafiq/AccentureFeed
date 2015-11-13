@@ -50,9 +50,10 @@ class CategoriesAdapter extends BaseAdapter {
             }
 
             Category currentListData = getItem(position);
-            position+=1;
+//            position+=1;
+//            ""+position+" : "+
 
-            mViewHolder.titletext.setText(""+position+" : "+currentListData.getTitle());
+            mViewHolder.titletext.setText(currentListData.getTitle());
 
 
             return convertView;

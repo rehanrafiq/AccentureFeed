@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="#FFFFFF">
+
+
         <ListView
+            android:layout_below="@id/detail_item_title"
             android:id="@+id/listview_categories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:dividerHeight="10sp"
+            android:dividerHeight="1sp"
             android:divider="#FFFFFF"
 
             />

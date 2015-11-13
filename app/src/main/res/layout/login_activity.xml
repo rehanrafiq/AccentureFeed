@@ -81,7 +81,6 @@
             android:hint="@string/edit_text_enter_password" />
 
         <Button
-            android:background="@drawable/fully_rounded"
             android:id="@+id/loginbutton"
             android:textStyle="bold"
             android:layout_width="match_parent"
@@ -90,6 +89,7 @@
             android:layout_below="@+id/edittextenterpassword"
             android:fontFamily="sans-serif-light"
             android:layout_centerHorizontal="true"
+            android:background="#cb4695e9"
             />
 
     </RelativeLayout>

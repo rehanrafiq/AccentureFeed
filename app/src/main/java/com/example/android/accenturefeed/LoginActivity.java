@@ -1,6 +1,7 @@
 package com.example.android.accenturefeed;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,11 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 @SuppressWarnings("ALL")
 public class LoginActivity extends AppCompatActivity {
 
+    public ProgressDialog pdialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +38,14 @@ public class LoginActivity extends AppCompatActivity {
                                           textView.setText("Username & password required!");
 
                                       } else {
+                                            pdialog = ProgressDialog.show(LoginActivity.this, "Authenticating", "Please wait...");
+
                                           sendLoginRequest(givenUsername, givenPassword);
                                       }
                                   }
 
                                   private void sendLoginRequest(final String givenUsername, final String givenPassword) {
+
 
 
                                       SendLoginRequestAsyncTask asyncTask = (SendLoginRequestAsyncTask) new SendLoginRequestAsyncTask(new SendLoginRequestAsyncTask.AsyncResponse() {
@@ -54,11 +58,13 @@ public class LoginActivity extends AppCompatActivity {
                                                   TextView textView = (TextView) findViewById(R.id.error);
                                                   textView.setTextColor(Color.parseColor("#d41a14"));
                                                   textView.setText("user name or password is incorrect!");
+                                                  pdialog.dismiss();
                                                   //     Toast.makeText(getApplicationContext(), "Username or password is incorrect.", Toast.LENGTH_LONG).show();
 
                                               } else {
-                                                  Toast.makeText(getApplicationContext(), "Welcome " + name, Toast.LENGTH_SHORT).show();
                                                   Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
+                                                  intent.putExtra("username",name);
+                                                  pdialog.dismiss();
                                                   startActivity(intent);
                                               }
                                           }
