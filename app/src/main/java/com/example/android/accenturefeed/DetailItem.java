@@ -42,17 +42,6 @@ public class DetailItem extends AppCompatActivity {
 
         }
 
-//        Intent cat_intent= new Intent(DetailItem.this, ItemActivity.class);
-//        startActivity(cat_intent);
-//        Intent i = getIntent();
-//        Bundle extras=i.getExtras();
-//        String id =extras.getString("cat_item_id");
-//
-//        if (extras!=null){
-//
-//            TextView textView=(TextView)findViewById(R.id.detail_item_text);
-//            textView.setText(id);
-//        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

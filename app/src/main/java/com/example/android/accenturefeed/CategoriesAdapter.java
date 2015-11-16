@@ -15,7 +15,6 @@ class CategoriesAdapter extends BaseAdapter {
         LayoutInflater inflater;
         Context context;
 
-
         public CategoriesAdapter(Context context, ArrayList<Category> myList) {
             this.myList = myList;
             this.context = context;
@@ -52,23 +51,16 @@ class CategoriesAdapter extends BaseAdapter {
             Category currentListData = getItem(position);
 //            position+=1;
 //            ""+position+" : "+
-
             mViewHolder.titletext.setText(currentListData.getTitle());
-
 
             return convertView;
         }
 
-
-
     private class MyViewHolder {
             TextView titletext;
 
-
             public MyViewHolder(View item) {
                 titletext = (TextView) item.findViewById(R.id.list_category_adapter_textview);
-
-
             }
         }
     }

@@ -57,18 +57,11 @@ import java.util.ArrayList;
             protected String doInBackground(Void... params) {
 
                 HttpClient httpClient = new DefaultHttpClient();
-
-                // In a POST request, we don't pass the values in the URL.
-                //Therefore we use only the web page URL as the parameter of the HttpPost argument
                 HttpGet httpGet = new HttpGet("https://accenture-feed.herokuapp.com/api/categories");
 
                 try {
-                    // HttpResponse is an interface just like HttpPost.
-                    //Therefore we can't initialize them
                     HttpResponse httpResponse = httpClient.execute(httpGet);
 
-                    // According to the JAVA API, InputStream constructor do nothing.
-                    //So we can't initialize InputStream although it is not an interface
                     InputStream inputStream = httpResponse.getEntity().getContent();
 
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -92,34 +85,6 @@ import java.util.ArrayList;
             }
 
             @Override
-            protected void onPreExecute() {
-
-//                new Thread() {
-//                    public void run() {
-//                        try{
-//                            // just doing some long operation
-//                            sleep(3000);
-//                        } catch (Exception e) {  }
-//                        pDialog.dismiss();
-//                    }
-//                }.start();
-
-            }
-
-//            public interface AsyncResponse {
-//
-//                void processFinish(ArrayList<Category> mylist);
-//            }
-//
-//            public AsyncResponse delegate=null ;
-//
-//            public SendPostCategoriesReqAsyncTask(AsyncResponse delegate){
-//                this.delegate = delegate;
-//            }
-
-
-
-            @Override
             protected void onPostExecute(String result) {
 
                 super.onPostExecute(result);
@@ -130,7 +95,6 @@ import java.util.ArrayList;
                 }
 
                 for (int i = 0; i < categories.length(); i++) {
-                    //      // Create a new object for each list item
                     JSONObject category = null;
                     try {
                         category = categories.getJSONObject(i);
@@ -140,15 +104,8 @@ import java.util.ArrayList;
                     Category ld = new Category();
                     ld.setTitle(category.optString("title"));
                     ld.setId(category.optString("_id"));
-                    //          ld.setImgResId(img[i]);
-                    // Add this object into the ArrayList myListItems
                     myList.add(ld);
-
-
                 }
-
-
-
                 listView = (ListView) findViewById(R.id.listview_categories);
                 listView.setAdapter(new CategoriesAdapter(context, myList));
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -162,27 +119,6 @@ import java.util.ArrayList;
                     }
                 });
 
-
-//        final ArrayList data = new ArrayList<>();
-//
-//
-//        for (int i = 0; i < categories.length(); i++) {
-//            JSONObject category = null;
-//            try {
-//                category = categories.getJSONObject(i);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                if (category != null) {
-//  //                                  Category cat = new Category(category.getString("title"),category.getString("_id"));
-//                    data.add(category.getString("title"));
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//                delegate.processFinish(myListItems);
             }
         }
         SendPostCategoriesReqAsyncTask asyncTask = (SendPostCategoriesReqAsyncTask) new SendPostCategoriesReqAsyncTask();
@@ -191,7 +127,6 @@ import java.util.ArrayList;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

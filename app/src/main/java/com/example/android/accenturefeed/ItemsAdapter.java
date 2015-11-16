@@ -15,7 +15,6 @@ class ItemsAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
 
-
     public ItemsAdapter(Context context, ArrayList<Items> myList) {
         this.myListItems = myList;
         this.context = context;
@@ -55,21 +54,14 @@ class ItemsAdapter extends BaseAdapter {
 
         mViewHolder.itemtitletext.setText(currentListData.getItemTitle());
 
-
-
         return convertView;
     }
-
-
-
     private class MyViewHolder {
-        TextView itemtitletext;
 
+        TextView itemtitletext;
 
         public MyViewHolder(View item) {
             itemtitletext = (TextView) item.findViewById(R.id.list_item_adapter_textview);
-
-
         }
     }
 }

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -46,12 +47,7 @@ public class ItemActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle extras=i.getExtras();
         String id =extras.getString("cat_id");
-//
-//        if (extras!=null){
-//
-//            TextView textView=(TextView)findViewById(R.id.item_text);
-//            textView.setText(id);
-//        }
+
         class SendGetOneCategoryReqAsyncTask extends AsyncTask<String, Void, String> {
 
             JSONArray items;
@@ -100,30 +96,7 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 pdialog = ProgressDialog.show(ItemActivity.this, "Fetching Data", "Please wait...");
-//                new Thread() {
-//                    public void run() {
-//                        try{
-//                            // just doing some long operation
-//                            sleep(3000);
-//                        } catch (Exception e) {  }
-//                        pDialog.dismiss();
-//                    }
-//                }.start();
-
             }
-
-
-
-//            public interface AsyncResponse {
-//
-//                void processFinish(ArrayList<Category> mylist);
-//            }
-//
-//            public AsyncResponse delegate=null ;
-//
-//            public SendPostCategoriesReqAsyncTask(AsyncResponse delegate){
-//                this.delegate = delegate;
-//            }
 
             @Override
             protected void onPostExecute(String result) {
@@ -134,51 +107,27 @@ public class ItemActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject Items = null;
+                        try {
+                            Items = items.getJSONObject(i);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-
-                for (int i = 0; i < items.length(); i++) {
-                    //      // Create a new object for each list item
-                    JSONObject Items = null;
-                    try {
-                        Items = items.getJSONObject(i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        Items item = new Items();
+                        item.setItemTitle(Items.optString("title"));
+                        item.setItemId(Items.optString("_id"));
+                        item.setItemPubdate(Items.optString("pubDate"));
+                        item.setItemLink(Items.optString("link"));
+                        item.setItemDesc(Items.optString("description"));
+                        myListItems.add(item);
                     }
-                    Items item = new Items();
-                    item.setItemTitle(Items.optString("title"));
-                    item.setItemId(Items.optString("_id"));
-                    item.setItemPubdate(Items.optString("pubDate"));
-                    item.setItemLink(Items.optString("link"));
-                    item.setItemDesc(Items.optString("description"));
-                            //          ld.setImgResId(img[i]);
-                            // Add this object into the ArrayList myListItems
-                            myListItems.add(item);
-                    pdialog.dismiss();
+                pdialog.dismiss();
+                if (items.length()==0){
+                    TextView textView=(TextView)findViewById(R.id.no_data);
+                    textView.setText("there are no items to dislpay");
                 }
-//                super.onPostExecute(result);
-//                try {
-//                    items = new JSONArray(result);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                for (int i = 0; i < items.length(); i++) {
-//                    //      // Create a new object for each list item
-//                    JSONObject item = null;
-//                    try {
-//                        item = items.getJSONObject(i);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Items Id = new Items();
-//                    Id.setItemTitle(item.optString("title"));
-//                    Id.setItemId(item.optString("_id"));
-//                    //          ld.setImgResId(img[i]);
-//                    // Add this object into the ArrayList myListItems
-//                    myListItems.add(Id);
-//
-//                }
-
-
 
                 ItemlistView = (ListView) findViewById(R.id.listview_items);
                 ItemlistView.setAdapter(new ItemsAdapter(context, myListItems));
@@ -201,38 +150,6 @@ public class ItemActivity extends AppCompatActivity {
                     }
                 });
 
-//                ItemlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        Items catitem = (Items) parent.getAdapter().getItem(position);
-//                        String catitem_id = catitem.itemid;
-//                        Intent catitem_intent= new Intent(ItemActivity.this, DetailItem.class);
-//                        catitem_intent.putExtra("cat_id",catitem_id);
-//                        startActivity(catitem_intent);
-//                    }
-//                });
-
-
-//        final ArrayList data = new ArrayList<>();
-//
-//
-//        for (int i = 0; i < categories.length(); i++) {
-//            JSONObject category = null;
-//            try {
-//                category = categories.getJSONObject(i);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                if (category != null) {
-//  //                                  Category cat = new Category(category.getString("title"),category.getString("_id"));
-//                    data.add(category.getString("title"));
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//                delegate.processFinish(myListItems);
             }
         }
         SendGetOneCategoryReqAsyncTask asyncTask = (SendGetOneCategoryReqAsyncTask) new SendGetOneCategoryReqAsyncTask();
@@ -241,7 +158,6 @@ public class ItemActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

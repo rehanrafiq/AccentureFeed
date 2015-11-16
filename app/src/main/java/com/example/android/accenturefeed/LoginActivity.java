@@ -59,8 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                                                   textView.setTextColor(Color.parseColor("#d41a14"));
                                                   textView.setText("user name or password is incorrect!");
                                                   pdialog.dismiss();
-                                                  //     Toast.makeText(getApplicationContext(), "Username or password is incorrect.", Toast.LENGTH_LONG).show();
-
                                               } else {
                                                   Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
                                                   intent.putExtra("username",name);
@@ -78,18 +76,12 @@ public class LoginActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up loginbutton, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             return true;
         }

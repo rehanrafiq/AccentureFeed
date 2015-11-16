@@ -5,7 +5,6 @@ class Category {
     String title;
     String id;
 
-
     public String getTitle() {
         return title;
     }
@@ -21,7 +20,4 @@ class Category {
     public void setId(String cid) {
         this.id = cid;
     }
-
-
-
 }
