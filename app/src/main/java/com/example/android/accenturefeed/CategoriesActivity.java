@@ -40,7 +40,7 @@ import java.util.ArrayList;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_activity);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         Intent i=getIntent();
         Bundle extras=i.getExtras();

@@ -37,9 +37,14 @@ public class DetailItem extends AppCompatActivity {
             textViewTitle.setText(item_title);
             TextView textViewdate=(TextView)findViewById(R.id.detail_item_date);
             textViewdate.setText(item_pubdate);
-            TextView textViewdesc=(TextView)findViewById(R.id.detail_item_desc);
-            textViewdesc.setText(desc(item_desc));
-
+            if (item_desc.length()==0) {
+                TextView textViewdesc = (TextView) findViewById(R.id.detail_item_desc);
+                textViewdesc.setText("No Description Available");
+            }
+            else {
+                TextView textViewdesc = (TextView) findViewById(R.id.detail_item_desc);
+                textViewdesc.setText(desc(item_desc));
+            }
         }
 
     }
