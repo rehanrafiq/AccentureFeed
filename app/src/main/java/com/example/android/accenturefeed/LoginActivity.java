@@ -1,9 +1,13 @@
 package com.example.android.accenturefeed;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -17,10 +21,12 @@ import android.widget.TextView;
 public class LoginActivity extends AppCompatActivity {
 
     public ProgressDialog pdialog;
+    public AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        if (isNetworkAvailable()==true){
 
         Button b1=(Button)findViewById(R.id.loginbutton);
         final EditText user =(EditText)findViewById(R.id.editTextentername);
@@ -36,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                                       if (givenUsername.isEmpty() || givenPassword.isEmpty()) {
                                           TextView textView = (TextView) findViewById(R.id.error);
                                           textView.setText("Username & password required!");
+
 
                                       } else {
                                             pdialog = ProgressDialog.show(LoginActivity.this, "Authenticating", "Please wait...");
@@ -74,6 +81,22 @@ public class LoginActivity extends AppCompatActivity {
                               }
         );
     }
+        else {
+
+            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+            alertDialog.setTitle("Alert");
+            alertDialog.setMessage("Check Your Internet Connection");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+
+
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
@@ -89,5 +112,11 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+
+    }
 
 }
