@@ -13,6 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -30,7 +37,7 @@ import java.util.ArrayList;
 
 
 @SuppressWarnings("ALL")
-    public class CategoriesActivity extends AppCompatActivity{
+    public class CategoriesActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
 //    public class CategoriesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -38,6 +45,7 @@ import java.util.ArrayList;
     Context context = CategoriesActivity.this;
     ArrayList<Category> myList = new ArrayList<Category>();
     ListView listView;
+    private GoogleApiClient mGoogleApiClient;
 //    ListView listView1;
 //    private String[] allcategories;
 //    private ActionBarDrawerToggle drawerListener;
@@ -46,6 +54,15 @@ import java.util.ArrayList;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_activity);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
 
 //
@@ -174,6 +191,14 @@ import java.util.ArrayList;
 //        }
         int id = item.getItemId();
         if (id == R.id.action_logout) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(Status status) {
+                    Intent logoutIntent = new Intent(CategoriesActivity.this,LoginActivity.class);
+                    startActivity(logoutIntent);
+                }
+            });
+
             Intent logoutIntent = new Intent(CategoriesActivity.this,LoginActivity.class);
             startActivity(logoutIntent);
             return true;
@@ -187,6 +212,11 @@ import java.util.ArrayList;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 //        @Override
 //    public void onConfigurationChanged(Configuration newConfig) {

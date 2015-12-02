@@ -30,6 +30,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 
 @SuppressWarnings("ALL")
@@ -60,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        
+
 //        for logging out from facebook
         LoginManager.getInstance().logOut();
 
@@ -210,14 +212,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_logout) {
-
+               Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                   @Override
+                   public void onResult(Status status) {
+                       mGoogleApiClient.clearDefaultAccountAndReconnect();
+                   }
+               });
+//            Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+//                @Override
+//                public void onResult(Status status) {
+//                    mGoogleApiClient.disconnect();
+//                }
+//            });
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-//    checks Internet is available or not
+    //    checks Internet is available or not
     private boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 

@@ -10,7 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class DetailItem extends AppCompatActivity {
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
+public class DetailItem extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    private GoogleApiClient mGoogleApiClient;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -18,6 +26,15 @@ public class DetailItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailitem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
 
 
@@ -60,6 +77,13 @@ public class DetailItem extends AppCompatActivity {
 
         int id = item.getItemId();
         if (id == R.id.action_logout) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(Status status) {
+                    Intent logoutIntent = new Intent(DetailItem.this,LoginActivity.class);
+                    startActivity(logoutIntent);
+                }
+            });
             Intent logoutIntent = new Intent(DetailItem.this,LoginActivity.class);
             startActivity(logoutIntent);
             return true;
@@ -76,6 +100,11 @@ public class DetailItem extends AppCompatActivity {
     }
     public String desc(String description) {
         return Html.fromHtml(description).toString();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
 
