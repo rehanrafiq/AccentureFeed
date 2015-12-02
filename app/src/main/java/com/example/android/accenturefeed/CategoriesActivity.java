@@ -30,17 +30,47 @@ import java.util.ArrayList;
 
 
 @SuppressWarnings("ALL")
-    public class CategoriesActivity extends AppCompatActivity {
+    public class CategoriesActivity extends AppCompatActivity{
+
+//    public class CategoriesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+
 
     Context context = CategoriesActivity.this;
     ArrayList<Category> myList = new ArrayList<Category>();
     ListView listView;
+//    ListView listView1;
+//    private String[] allcategories;
+//    private ActionBarDrawerToggle drawerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_activity);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
+//
+//        listView1=(ListView)findViewById(R.id.drawer_list);
+//        allcategories=getResources().getStringArray(R.array.all_activities);
+//        ArrayAdapter<String> itemsAdapter =
+//                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, allcategories);
+//        listView1.setAdapter(itemsAdapter);
+//        listView1.setOnItemClickListener(this);
+//
+//        DrawerLayout drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
+//        drawerListener=new ActionBarDrawerToggle(this,drawerLayout,R.drawable.ic_drawer,R.string.drawer_open+R.string.drawer_close){
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                Toast.makeText(CategoriesActivity.this,"Drawer Opened",Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                Toast.makeText(CategoriesActivity.this,"Drawer Closed",Toast.LENGTH_SHORT).show();
+//            }
+//        };
+//        drawerLayout.setDrawerListener(drawerListener);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i=getIntent();
         Bundle extras=i.getExtras();
@@ -124,6 +154,11 @@ import java.util.ArrayList;
         SendPostCategoriesReqAsyncTask asyncTask = (SendPostCategoriesReqAsyncTask) new SendPostCategoriesReqAsyncTask();
         asyncTask.execute();
     }
+//
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        drawerListener.syncState();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,10 +168,14 @@ import java.util.ArrayList;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+//        if (drawerListener.onOptionsItemSelected(item)){
+//            return true;
+//        }
         int id = item.getItemId();
         if (id == R.id.action_logout) {
-            Intent productIntent = new Intent(CategoriesActivity.this,LoginActivity.class);
-            startActivity(productIntent);
+            Intent logoutIntent = new Intent(CategoriesActivity.this,LoginActivity.class);
+            startActivity(logoutIntent);
             return true;
         }
 
@@ -149,5 +188,26 @@ import java.util.ArrayList;
                 return super.onOptionsItemSelected(item);
         }
     }
+//        @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        drawerListener.onConfigurationChanged(newConfig);
+//    }
+//
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//        Toast.makeText(this,allcategories[position]+"was selected",Toast.LENGTH_SHORT).show();
+//        selectItem(position);
+//
+//    }
+//
+//    public void selectItem(int position) {
+//        listView1.setItemChecked(position, true);
+//        setTitle(allcategories[position]);
+//    }
+//    public void setTitle(String title){
+//        getSupportActionBar().setTitle(title);
+//    }
 
 }

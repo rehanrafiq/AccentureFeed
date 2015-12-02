@@ -131,6 +131,7 @@ public class ItemActivity extends AppCompatActivity {
 
                 ItemlistView = (ListView) findViewById(R.id.listview_items);
                 ItemlistView.setAdapter(new ItemsAdapter(context, myListItems));
+
                 ItemlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -167,8 +168,8 @@ public class ItemActivity extends AppCompatActivity {
 
         int id = item.getItemId();
         if (id == R.id.action_logout) {
-            Intent productIntent = new Intent(ItemActivity.this,LoginActivity.class);
-            startActivity(productIntent);
+            Intent logoutIntent = new Intent(ItemActivity.this,LoginActivity.class);
+            startActivity(logoutIntent);
             return true;
         }
         switch (item.getItemId()) {

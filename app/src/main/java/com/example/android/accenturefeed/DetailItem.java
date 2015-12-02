@@ -60,8 +60,8 @@ public class DetailItem extends AppCompatActivity {
 
         int id = item.getItemId();
         if (id == R.id.action_logout) {
-            Intent productIntent = new Intent(DetailItem.this,LoginActivity.class);
-            startActivity(productIntent);
+            Intent logoutIntent = new Intent(DetailItem.this,LoginActivity.class);
+            startActivity(logoutIntent);
             return true;
         }
 

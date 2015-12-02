@@ -29,21 +29,38 @@
             android:paddingBottom="10dp"
             android:fontFamily="sans-serif-light"/>
 
-        <TextView
-            android:textStyle="bold"
-            android:layout_below="@+id/textView"
-            android:layout_width="match_parent"
-            android:fontFamily="sans-serif-light"
-            android:layout_height="match_parent"
-            android:id="@+id/error"
-            android:textSize="12sp"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="10dp"
-            android:layout_marginBottom="10dp"
+    <com.facebook.login.widget.LoginButton
+    android:id="@+id/login_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+        android:layout_below="@+id/textView"
+    />
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/login_button"
+        android:layout_alignLeft="@+id/login_button"
+        android:layout_alignStart="@+id/login_button"
+        android:layout_alignRight="@+id/login_button"
+        android:layout_alignEnd="@+id/login_button" />
 
-            />
+    <TextView
+        android:textColor="#d41a14"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/info"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-light"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sign_in_button"
+        />
         <EditText
-            android:paddingTop="30dp"
+            android:paddingTop="10dp"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +69,7 @@
             android:focusable="true"
             android:textColorHighlight="#ff7eff15"
             android:fontFamily="sans-serif-light"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="100dp"
             android:layout_below="@+id/textView" />
 
            <EditText
@@ -66,13 +83,28 @@
             android:fontFamily="sans-serif-light"
             android:hint="@string/edit_text_enter_password" />
 
-        <Button
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:fontFamily="sans-serif-light"
+        android:layout_height="wrap_content"
+        android:id="@+id/error"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+       android:layout_below="@+id/edittextenterpassword"
+        android:layout_marginBottom="10dp"/>
+    <!--android:paddingBottom="10dp"-->
+    <!--android:layout_marginBottom="10dp"-->
+
+
+    <Button
             android:id="@+id/loginbutton"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_butoon"
-            android:layout_below="@+id/edittextenterpassword"
+            android:layout_below="@+id/error"
             android:fontFamily="sans-serif-light"
             android:layout_centerHorizontal="true"
             android:background="#cb4695e9" />
